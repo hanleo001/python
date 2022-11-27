@@ -1,0 +1,3 @@
+begin
+the amount of the prime number under 10**8 is 5761455
+Time used:1017.6597011089325 
