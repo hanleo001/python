@@ -744,17 +744,177 @@ class Solution:
         n=bin(n)[2:]
         n=n[::-1]+"0"*(32-len(n))
         return int(n,2)
+    def hammingWeight(self, n: int) -> int:
+        a=bin(n)
+        return a.count("1")
+    def minCostClimbingStairs(self, cost: list[int]) -> int:
+        cost=iter(cost)
+        laststep=next(cost)
+        step=next(cost)
+        for i in cost:
+            step,laststep=min(step,laststep)+i,step
+        return min(step,laststep)
+    def transpose(self, matrix: list[list[int]]) -> list[list[int]]:
+        ans=[[0]*len(matrix) for i in range(len(matrix[0]))]
+        for i,item in enumerate(matrix):
+            for k,ktem in enumerate(item):
+                ans[k][i]=ktem
+        return ans
+    def binaryGap(self, n: int) -> int:
+        n=bin(n)
+        i=2
+        j=i+1
+        large=0
+        while j<len(n):
+            if n[j]!="1":
+                j+=1
+            else:
+                large=max(large,j-i)
+                i,j=j,j+1
+        return large
+    def uncommonFromSentences(self, s1: str, s2: str) -> List[str]:
+        s1=collections.Counter(s1.split())
+        s2=collections.Counter(s2.split())
+        res=[]
+        for item in s1:
+            if s1[item]==1 and s2[item]==0:
+                res.append(item)
+        for item in s2:
+            if s2[item]==1 and s1[item]==0:
+                res.append(item)
+        return res
+    def preswap(self,larges,smalls):
+        large=sum(larges)
+        small=sum(smalls)
+        diff=(large-small)//2
+        larges=set(larges)
+        for i in smalls:
+            if i+diff in larges:
+                return [i+diff,i]
+    def fairCandySwap(self, aliceSizes: List[int], bobSizes: List[int]) -> List[int]:
+        return self.preswap(aliceSizes,bobSizes)
+    def trueva(self,a,b):
+        if a==b:
+            return 0
+        elif a>b:
+            return -1
+        else:return 1
+    def isMonotonic(self, nums: List[int]) -> bool:
+        value=0
+        for i in range(len(nums)-1):
+            a=self.trueva(nums[i],nums[i+1])
+            if value==0:
+                if a==0:
+                    continue
+                elif a==1:
+                    value=1
+                else:
+                    value=-1
+            if a*value==-1:
+                return False
+        return True
+    def encode(self,word):
+        res=[0]*52
+        for inde,i in enumerate(word):
+            if inde%2==0:
+                res[ord(i)-ord("a")]+=1
+            else:
+                res[ord(i)-ord("a")+26]+=1
+        return res
+    def numSpecialEquivGroups(self, words: list[str]) -> int:
+        allitem=[]
+        for i in words:
+            if (value:=self.encode(i)) not in allitem:
+                allitem.append(value)
+        return len(allitem)
+    def sortArrayByParity(self, nums: List[int]) -> List[int]:
+        res=[]
+        for i in nums:
+            if i%2==0:
+                res=[i]+res
+            else:
+                res.append(i)
+        return res
+    def smallestRangeI(self, nums: List[int], k: int) -> int:
+        diff=max(nums)-min(nums)
+        if diff>=2*k:
+            return diff-2*k
+        else:
+            return 0
+    def alldivided(self,x,lis):
+        for i in lis:
+            if i%x!=0:
+                return False
+        return True
+    def hasGroupsSizeX(self, deck: List[int]) -> bool:
+        dic={}
+        for i in deck:
+            if i in dic:
+                dic[i]+=1
+            else:
+                dic[i]=1
+        lis=[dic[key] for key in dic]
+        a=min(lis)
+        if a==1:
+            return False
+        for i in range(2,a+1):
+            if self.alldivided(i, lis):
+                return True
+        return False
+    def isletter(self,letter):
+        a=ord(letter)
+        if (a>=65 and a<=90) or (a>=97 and a<=122):
+            return True
+        else:
+            return False
+    def reverseOnlyLetters(self, s: str) -> str:
+        temp=[]
+        for i in s:
+            if self.isletter(i):
+                temp.append(i)
+        lis=iter(temp[::-1])
+        res=[]
+        for i in s:
+            if self.isletter(i):
+                res.append(next(lis))
+            else:
+                res.append(i)
+        return "".join(res)
+    def minAddToMakeValid(self, s: str) -> int:
+        temp=0
+        ans=0
+        for i in s:
+            if i=="(":
+                temp+=1
+            elif i==")" and temp>0:
+                temp-=1
+            else:
+                ans+=1
+        return temp+ans
+    def sortArrayByParityII(self, nums: List[int]) -> List[int]:
+        res=[0]*len(nums)
+        odd=0
+        even=0
+        for item in nums:
+            if  item%2==0:
+                res[even*2]=item
+                even+=1
+            else:
+                res[odd*2+1]=item
+                odd+=1
+        return res
+    def isLongPressedName(self, name: str, typed: str) -> bool:
+        i,j=0,0
+        ln,lt=len(name),len(typed)
+        while j<lt:
+            if i<ln and j<lt and name[i]==typed[j]:
+                i+=1
+                j+=1
+            elif i>=1 and name[i-1]==typed[j]:
+                j+=1
+            else:
+                return False
+        return i==ln
+
+
 a=Solution()
-
-
-n="00000010100101000001111010011100"
-print(int(n[::-1],2))
-
-
-
-
-
-
-
-
-
